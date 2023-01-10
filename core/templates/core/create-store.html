@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    
+    <h1>Open a new store</h1>
+    <hr>
+
+    <div class="messages">
+        {% for message in messages %}
+
+            {% if message.message == "A trader can't have more than one store" %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% elif message.message == "A store with this name already exists" %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    <form action="", method="post", enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+        <br>
+        <input type="submit", value="Create Store" class="btn btn-success">
+    </form>
+
+
+{% endblock content %}

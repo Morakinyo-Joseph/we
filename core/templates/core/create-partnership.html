@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    <h1>Create Partnership with Institution</h1>
+    <hr>
+
+    <p><a href="{% url 'core:partner' %}"><span>&#x27f5</span> back</a></p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form | crispy }}
+        <br>
+        <input type="submit", value="Create Partnership" class="btn btn-success">
+    </form>
+
+
+{% endblock content %}

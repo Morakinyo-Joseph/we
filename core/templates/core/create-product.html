@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+<p><a href="{% url 'core:store' store.name %}"><span>&#x27f5</span> back</a></p>
+
+
+<!-- headings -->
+<h1>{{ store.institution.name }}: {{ store.name }}</h1>
+
+<br>
+<h2>Create a new product</h2>
+<hr>
+
+<!-- messages -->
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+   
+
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form | crispy }}
+    <br>
+
+    .
+    <input type="button", value="Done" class="btn btn-success">
+    <input type="reset", value="Reset", class="btn btn-warning">
+    <br><br>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<style type="text/css">
+  .admin-btns{
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+
+
+<p><a href="{% url 'core:partner' %}"><span>&#x27f5</span> back</a></p>
+
+
+<h1>{{ institute.name }}</h1>
+<hr width="350px">
+
+
+<div class="list-of-stores">
+    <h2>Stores</h2>
+
+    <div class="messages">
+      {% for message in messages %}
+          <div class="alert alert-success" role="alert">
+              {{ message }}
+          </div>
+      {% endfor %}
+    </div>>
+
+    <br>
+
+    <div class="admin-btns">
+
+      <a href="{% url 'core:store-create' institute.name %}">
+        <button class="btn btn-primary">Open a new store</button>
+      </a>
+      
+      <a href="{% url 'core:terminate-partnership' institute.name %}">
+        <button class="btn btn-danger">Terminate Partnership</button>
+      </a>
+      
+    </div>
+
+    <br><br>
+
+  {% for store in store %}
+  <a href="{% url 'core:store' store.name %}">
+    <Ol class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">{{ store.name }}</div>
+            {{ store.description }}
+          </div>
+          <span class="badge bg-primary rounded-pill">{{ store.product.count }}</span>
+        </li>
+    </Ol>
+  </a>
+  {% endfor %} 
+</div>
+
+
+{% endblock content %}

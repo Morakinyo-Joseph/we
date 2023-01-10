@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<p><a href="{% url 'core:institution' store.institution.name %}"><span>&#x27f5</span> back</a></p>
+
+    
+<h1>{{ store.institution.name }}: {{ store.name }}</h1>
+
+<br><br>
+<a href="{% url 'core:product-create' store.name %}">
+    <button class="btn btn-primary">Drop a new product</button>
+</a>
+
+{% endblock content %}
