@@ -1,5 +1,6 @@
 from django import forms
 from .models import Institution, Store, Product
+from account.models import User
 
 
 class InstitutionCreationForm(forms.ModelForm):
@@ -37,3 +38,12 @@ class ProductCreationForm(forms.ModelForm):
             "product_description",
         )
 
+
+class UserCreationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {
+            "first_name",
+            "last_name",
+            "email",
+        }

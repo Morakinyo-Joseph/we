@@ -1,22 +1,19 @@
 from django.shortcuts import render, redirect
-from .models import Institution, Store, Cart, Category, Product, User
-from .forms import InstitutionCreationForm, StoreCreationForm, ProductCreationForm
+from .models import Institution, Store, Cart, Category, Product
+from .forms import InstitutionCreationForm, StoreCreationForm, ProductCreationForm, UserCreationForm
 from django.contrib import messages
 import random
 import string
-
-# Create your views here.
-
-
-def landing_page(request):
-    return render(request, 'landing_page.html')
+from account.models import User
 
 
-def partnership(request):
+# DASHBOARD
+def dashboard(request):
     institution = Institution.objects.all()
-    return render(request, 'core/partnership.html', {"institution": institution})
+    return render(request, 'core/dashboard.html', {"institution": institution})
 
 
+# institution
 def institution(request, name):
     institute = Institution.objects.get(name=name)
 
@@ -27,9 +24,10 @@ def institution(request, name):
         if i.institution.uuid == institute.uuid:
             store_list.append(i)
 
-    return render(request, 'core/institution-detail.html', {"institute": institute, "store": store_list})
+    return render(request, 'core/manage-institution/institution-detail.html', {"institute": institute, "store": store_list})
 
 
+# partnership
 def create_partnership(request):
     form = InstitutionCreationForm()
     if request.method == "POST":
@@ -39,21 +37,38 @@ def create_partnership(request):
             address = form.cleaned_data['address']
             manager = form.cleaned_data['institution_manager']
 
+            if Institution.objects.filter(name=name).exists():
+                messages.error(request, "Institution with that name already exists")
+                return redirect({"core:partner-create"})
+
             new_institution = Institution.objects.create(name=name, address=address, institution_manager=manager)
             new_institution.save()
 
             messages.success(request, "Partnership Achieved Successfully")
-            return redirect('core:partner')
+            return redirect('core:dashboard')
         else:
             messages.info(request, "Error in field inputation")
+    return render(request, "core/manage-institution/create-partnership.html", {"form": form})
 
-    return render(request, "core/create-partnership.html", {"form": form})
+def terminate_partnership(request, name):
+    institute = Institution.objects.get(name=name)
+
+    if request.GET.get("delete"):
+        institute.delete()
+        messages.success(request, f"Contract Terminated with {institute.name}")
+        return redirect("core:dashboard")
+    
+    return render(request, "core/manage-institution/terminate-partnership.html", {"institute": institute})
 
 
+# Stores
 def stores(request):
     stores = Store.objects.all()
-    return render(request, "core/stores.html", {"stores": stores})
+    return render(request, "core/manage-store/stores.html", {"stores": stores})
 
+def store_detail(request, name):
+    store = Store.objects.get(name=name)
+    return render(request, "core/manage-store/store-detail.html", {"store": store})
 
 def create_store(request, name):
     institution_name = name
@@ -83,19 +98,15 @@ def create_store(request, name):
                 return redirect('core:institution', institute.name)
             else:
                 messages.error(request, "No Institution of such exists")
-                return redirect('core:partner')
+                return redirect('core:dashboard')
 
         else:
             messages.info(request, "Error in field inputation")
 
-    return render(request, "core/create-store.html", {"form": form})
+    return render(request, "core/manage-store/create-store.html", {"form": form})
 
 
-def store_detail(request, name):
-    store = Store.objects.get(name=name)
-    return render(request, "core/store-detail.html", {"store": store})
-
-
+# products
 def create_product(request, store_name):
     store = Store.objects.get(name=store_name)
 
@@ -124,15 +135,30 @@ def create_product(request, store_name):
 
 
 
-    return render(request, "core/create-product.html", {"form": form, "store": store})
+    return render(request, "core/manage-products/create-product.html", {"form": form, "store": store})
 
 
-def terminate_partnership(request, name):
-    institute = Institution.objects.get(name=name)
+# manage users
+def user_list(request):
+    user = User.objects.all()
+    return render(request, "core/manage-users/user-list.html", {"user": user})
 
-    if request.GET.get("delete"):
-        institute.delete()
-        messages.success(request, f"Contract Terminated with {institute.name}")
-        return redirect("core:partner")
-    
-    return render(request, "core/terminate-partnership.html", {"institute": institute})
+def create_user(request):
+    form = UserCreationForm
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            email = form.cleaned_data["email"]
+            username = f"{first_name}.{last_name}"
+            password = "1111"
+   
+            new_user = User.objects.create_user(first_name=first_name, last_name=last_name, 
+                                                username=username, email=email, password=password)
+            new_user.save()
+
+            messages.info(request, "New user created successfully")
+            
+    return render(request, "core/manage-users/user-create.html")
+

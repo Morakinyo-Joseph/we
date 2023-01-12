@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'core',
-    'accounts',
+    'account',
+    'supermarket',
     'crispy_forms'
 ]
 
@@ -135,6 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # DEFAULT_AUTO_FIELD = 'workbench.core.models.MyUUIDModel'
 
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "account.User"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

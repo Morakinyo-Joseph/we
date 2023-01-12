@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- headings -->
+<h1>This is the homepage</h1>
+
+
+<!-- messages -->
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- headings -->
+<h1>Login your credentials</h1>
+<br>
+
+<!-- messages -->
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+<form method="post">
+    {% csrf_token %}
+
+    <input type="text", name="username", placeholder="Username", class="form-control">
+    <br>
+    <input type="password", name="password", placeholder="Password", class="form-control">
+    <br><br>
+    <input type="submit", value="Login", class="btn btn-success">
+
+</form>
+
+{% endblock content %}
