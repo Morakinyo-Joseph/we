@@ -157,8 +157,29 @@ def create_user(request):
             new_user = User.objects.create_user(first_name=first_name, last_name=last_name, 
                                                 username=username, email=email, password=password)
             new_user.save()
-
             messages.info(request, "New user created successfully")
             
     return render(request, "core/manage-users/user-create.html")
+
+def edit_user(request, pk):
+    user = User.objects.get(id=pk)
+    form = UserCreationForm(instance=user)
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST, instance=user )
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "New user added successfully")
+            return redirect("core:user-list")
+        else:
+            messages.error(request, "Error in form inputation")
+    return render(request, "core/manage-users/user-edit.html")
+
+def delete_user(request, pk):
+    user = User.objects.get(id=pk)
+    if request.GET.get("confirm"):
+        user.delete()
+        messages.success(request, "User deleted successfully")
+    return render(request, "core/manage-users/user-delete.html")
 

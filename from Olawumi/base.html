@@ -1,0 +1,72 @@
+
+<style type="text/css">
+    nav {
+    position: fixed;
+    min-width: 290px;
+    height: 30%;
+    top: 0px;
+    background-color: red;
+}
+
+#sidebar {
+    position: fixed;
+    min-width: 290px;
+    background-color: green;
+    border-right: solid;
+    height: 100%;
+    width: 300px;
+    top: 0px;
+    left: 0px;
+}
+
+header {
+    margin: 10px;
+    text-align: center;
+    font-size: 24px;
+    color: white;
+}
+
+#sidebar ul {
+    height: 80%;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#sidebar li {
+    color: white;
+    border-top: 2px solid;
+    list-style: none;
+    position: relative;
+    width: 100%;
+}
+
+#sidebar a {
+    display: block;
+    padding: 15px 30px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#main-doc {
+    position: absolute;
+    margin-left: 310px;
+    padding: 20px;
+    margin-bottom: 110px;
+}
+</style>
+
+<div id="sidebar">
+    <header style="text-align: left;"><a href="">User Logged In</a></header>
+    <ul>
+        <li><a href="#Home" class="nav-link">Home</a></li>
+        <li><a href="#Dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="#Orders" class="nav-link">Orders</a></li>
+        <li><a href="#Products" class="nav-link">Products</a></li>
+        <li><a href="#Customers" class="nav-link">Customers</a></li>
+    </ul>
+</div>
+
+<div id="main-doc">
+</div>
