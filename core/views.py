@@ -9,12 +9,33 @@ from account.models import User
 
 # DASHBOARD
 def dashboard(request):
-    institution = Institution.objects.all()
-    return render(request, 'core/dashboard.html', {"institution": institution})
+    return render(request, 'core/dashboard.html')
 
 
 # institution
-def institution(request, name):
+def institution_list(request):
+    institutes = Institution.objects.all()
+    return render(request, "core/manage-institution/institution-list.html", {"institute": institutes})
+
+
+def institution_search(request):
+    if request.method == "POST":
+        search = request.POST["search"]
+        institute = Institution.objects.filter(name__contains=search)
+
+        flag = 0
+        if institute.exists():
+            print(institute)
+        else:
+            flag = 1
+            search = False
+
+        return render(request, "core/manage-institution/search.html", {"search": search, "institute": institute, "flag": flag})
+    else:
+        return render(request, "core/manage-institution/search.html")
+
+
+def institution_detail(request, name):
     institute = Institution.objects.get(name=name)
 
     store_list = []

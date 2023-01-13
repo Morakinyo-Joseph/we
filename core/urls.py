@@ -11,7 +11,9 @@ urlpatterns = [
     path('partner-create', views.create_partnership, name="partner-create"),
 
     # manage institution
-    path('institution-detail/<str:name>', views.institution, name="institution"),
+    path('institution-list', views.institution_list, name="institution-list"),
+    path('institution-search', views.institution_search, name="institution-search"),
+    path('institution-detail/<str:name>', views.institution_detail, name="institution-detail"),
     path('institution-detail/<str:name>/terminate', views.terminate_partnership, name="terminate-partnership"),
 
     # manage store

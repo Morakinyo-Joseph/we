@@ -1,0 +1,19 @@
+{% extends 'core/manage-institution/institution-list.html' %}
+
+
+{% block institution %}
+
+    {% if search %}
+        Here are the top searches that contains "{{ search }}" 
+ 
+        {% for institute in institute %}
+             <p>{{ institute.name }}</p> 
+        {% endfor %}
+
+    {% elif flag > 0 %}
+        Such search doesn't exists
+    {% else %}
+        oops you did not search for anything
+    {% endif %}
+
+{% endblock institution %}
